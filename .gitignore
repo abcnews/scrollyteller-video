@@ -1,0 +1,10 @@
+# General
+.DS_Store
+Thumbs.db
+node_modules
+*.log
+
+# Build
+/dist
+.rts2_cache_*
+.cache

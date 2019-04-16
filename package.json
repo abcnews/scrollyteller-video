@@ -1,0 +1,40 @@
+{
+  "name": "@abcnews/scrollyteller-video",
+  "version": "1.0.0-pre",
+  "description": "A video background for scrollytellers",
+  "homepage": "https://github.com/abcnews/scrollyteller-video#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/abcnews/scrollyteller-video.git"
+  },
+  "bugs": {
+    "url": "https://github.com/abcnews/scrollyteller-video/issues"
+  },
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "alsatian ./tests/**/*.spec.ts*",
+    "prepublishOnly": "npm test && npm run build",
+    "clean": "rimraf dist",
+    "build": "npm run clean && microbundle --format=cjs --sourcemap=false"
+  },
+  "keywords": [
+    "react",
+    "scrollyteller",
+    "video"
+  ],
+  "author": "Nathan Hoad",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": "^16.8.6"
+  },
+  "devDependencies": {
+    "@types/react": "^16.8.13",
+    "@types/react-test-renderer": "^16.8.1",
+    "alsatian": "^2.4.0",
+    "microbundle": "^0.11.0",
+    "react": "^16.8.6",
+    "react-test-renderer": "^16.8.5",
+    "rimraf": "^2.6.3",
+    "rollup": "^1.7.3"
+  }
+}
