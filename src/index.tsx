@@ -3,6 +3,7 @@ import * as React from 'react';
 interface Props {
   src: string;
   targetTime: number;
+  onVideoLoaded(video: HTMLVideoElement): void;
   onTargetTimeReached(): void;
 }
 
@@ -62,12 +63,17 @@ export default class extends React.Component<Props, State> {
         this.video.style.setProperty('max-width', 'initial');
         this.video.autoplay = false;
 
+        this.props.onVideoLoaded && this.props.onVideoLoaded(this.video);
+
         // Extra timeout so safari doesn't think we are autoplaying
         setTimeout(() => {
           this.interval = setInterval(() => {
             const timeDifference = Math.abs(this.state.targetTime - this.video.currentTime);
-            if (timeDifference < 0.2) {
-              this.video.pause();
+
+            if (timeDifference === 0) return;
+
+            if (timeDifference < 0.3) {
+              if (!this.video.paused) this.video.pause();
               this.video.currentTime = this.state.targetTime;
               if (!this.hasReachedTarget) {
                 this.hasReachedTarget = true;
@@ -75,18 +81,19 @@ export default class extends React.Component<Props, State> {
               }
             } else {
               this.hasReachedTarget = false;
-
               if (this.state.targetTime > this.video.currentTime) {
-                let playing = this.video.play();
-                if (typeof playing.catch === 'function') {
-                  playing.catch(err => console.log(err)); // If not muted then you get a DOMException trying to play right away
+                if (this.video.paused) {
+                  let playing = this.video.play();
+                  if (typeof playing.catch === 'function') {
+                    playing.catch(err => console.log(err)); // If not muted then you get a DOMException trying to play right away
+                  }
                 }
               } else {
-                this.video.currentTime -= 0.1;
+                this.video.currentTime = this.state.targetTime;
                 this.video.pause();
               }
             }
-          }, 50);
+          }, 300);
         }, 100);
       }
     }, 100);
