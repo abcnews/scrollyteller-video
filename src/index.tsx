@@ -73,7 +73,10 @@ export default class extends React.Component<Props, State> {
             this.hasReachedTarget = false;
 
             if (this.state.targetTime > this.video.currentTime) {
-              this.video.play().catch(err => console.log(err)); // If not muted then you get a DOMException trying to play right away
+              let playing = this.video.play();
+              if (typeof playing.catch === 'function') {
+                playing.catch(err => console.log(err)); // If not muted then you get a DOMException trying to play right away
+              }
             } else {
               this.video.currentTime -= 0.1;
               this.video.pause();
