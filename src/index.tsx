@@ -3,10 +3,10 @@ import * as React from 'react';
 interface Props {
   src: string;
   targetTime: number;
+  onTargetTimeReached(): void;
 }
 
 interface State {
-  scale: number;
   targetTime: number;
 }
 
@@ -16,6 +16,7 @@ export default class extends React.Component<Props, State> {
   video: HTMLVideoElement;
   scale: number;
   interval: NodeJS.Timeout;
+  hasReachedTarget: boolean;
 
   constructor(props: Props) {
     super(props);
@@ -23,7 +24,6 @@ export default class extends React.Component<Props, State> {
     this.calculateScale = this.calculateScale.bind(this);
 
     this.state = {
-      scale: 1,
       targetTime: props.targetTime || 0
     };
 
@@ -33,10 +33,6 @@ export default class extends React.Component<Props, State> {
       this.hasVideoLoaded = true;
     });
     this.video.src = props.src;
-  }
-
-  public shouldComponentUpdate() {
-    return false;
   }
 
   public componentWillReceiveProps(nextProps: Props) {
@@ -69,7 +65,13 @@ export default class extends React.Component<Props, State> {
           if (timeDifference < 0.2) {
             this.video.pause();
             this.video.currentTime = this.state.targetTime;
+            if (!this.hasReachedTarget) {
+              this.hasReachedTarget = true;
+              this.props.onTargetTimeReached && this.props.onTargetTimeReached();
+            }
           } else {
+            this.hasReachedTarget = false;
+
             if (this.state.targetTime > this.video.currentTime) {
               this.video.play().catch(err => console.log(err)); // If not muted then you get a DOMException trying to play right away
             } else {
