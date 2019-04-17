@@ -4,7 +4,17 @@ Add a video background to a [scrollyteller](https://www.npmjs.com/package/@abcne
 
 ## Usage
 
-...
+Inside a Scrollyteller:
+
+```js
+import Video from '@abcnews/scrollyteller-video';
+
+<Scrollyteller {...}>
+  <Video src={url} targetTime={number} onTargetTimeReached={() => {}}>
+    ... any overlays ...
+  </Video>
+</Scrollyteller>
+```
 
 ## Author
 
