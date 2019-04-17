@@ -12,8 +12,7 @@
   },
   "main": "dist/index.js",
   "scripts": {
-    "test": "alsatian ./tests/**/*.spec.ts*",
-    "prepublishOnly": "npm test && npm run build",
+    "prepublishOnly": "npm run build",
     "clean": "rimraf dist",
     "build": "npm run clean && microbundle --format=cjs --sourcemap=false"
   },
@@ -30,7 +29,6 @@
   "devDependencies": {
     "@types/react": "^16.8.13",
     "@types/react-test-renderer": "^16.8.1",
-    "alsatian": "^2.4.0",
     "microbundle": "^0.11.0",
     "react": "^16.8.6",
     "react-test-renderer": "^16.8.5",

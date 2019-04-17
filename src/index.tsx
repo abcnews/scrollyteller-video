@@ -99,7 +99,6 @@ export default class extends React.Component<Props, State> {
     const width = this.video.videoWidth;
     const height = this.video.videoHeight;
 
-    // Set the base scale
     let scale = window.innerWidth / width;
 
     if (window.innerHeight > height * scale) {
