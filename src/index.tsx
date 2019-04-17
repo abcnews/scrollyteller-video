@@ -56,33 +56,38 @@ export default class extends React.Component<Props, State> {
         // Attach the video and set up playback handlers
         this.base.insertBefore(this.video, this.base.firstElementChild);
         this.video.msRealTime = true;
+        this.video.setAttribute('playsinline', 'true');
         this.video.defaultMuted = true;
         this.video.muted = true;
         this.video.style.setProperty('max-width', 'initial');
+        this.video.autoplay = false;
 
-        this.interval = setInterval(() => {
-          const timeDifference = Math.abs(this.state.targetTime - this.video.currentTime);
-          if (timeDifference < 0.2) {
-            this.video.pause();
-            this.video.currentTime = this.state.targetTime;
-            if (!this.hasReachedTarget) {
-              this.hasReachedTarget = true;
-              this.props.onTargetTimeReached && this.props.onTargetTimeReached();
-            }
-          } else {
-            this.hasReachedTarget = false;
-
-            if (this.state.targetTime > this.video.currentTime) {
-              let playing = this.video.play();
-              if (typeof playing.catch === 'function') {
-                playing.catch(err => console.log(err)); // If not muted then you get a DOMException trying to play right away
+        // Extra timeout so safari doesn't think we are autoplaying
+        setTimeout(() => {
+          this.interval = setInterval(() => {
+            const timeDifference = Math.abs(this.state.targetTime - this.video.currentTime);
+            if (timeDifference < 0.2) {
+              this.video.pause();
+              this.video.currentTime = this.state.targetTime;
+              if (!this.hasReachedTarget) {
+                this.hasReachedTarget = true;
+                this.props.onTargetTimeReached && this.props.onTargetTimeReached();
               }
             } else {
-              this.video.currentTime -= 0.1;
-              this.video.pause();
+              this.hasReachedTarget = false;
+
+              if (this.state.targetTime > this.video.currentTime) {
+                let playing = this.video.play();
+                if (typeof playing.catch === 'function') {
+                  playing.catch(err => console.log(err)); // If not muted then you get a DOMException trying to play right away
+                }
+              } else {
+                this.video.currentTime -= 0.1;
+                this.video.pause();
+              }
             }
-          }
-        }, 50);
+          }, 50);
+        }, 100);
       }
     }, 100);
   }
