@@ -58,7 +58,7 @@ export default class extends React.Component<Props, State> {
         this.calculateScale();
 
         // Attach the video and set up playback handlers
-        this.base.appendChild(this.video);
+        this.base.insertBefore(this.video, this.base.firstElementChild);
         this.video.msRealTime = true;
         this.video.muted = true;
         this.video.style.setProperty('max-width', 'initial');
@@ -113,6 +113,10 @@ export default class extends React.Component<Props, State> {
   }
 
   public render() {
-    return <div ref={el => (this.base = el)} style={{ transform: `scale(${this.state.scale})` }} />;
+    return (
+      <div ref={el => (this.base = el)} style={{ transform: `scale(${this.state.scale})` }}>
+        {this.props.children}
+      </div>
+    );
   }
 }
