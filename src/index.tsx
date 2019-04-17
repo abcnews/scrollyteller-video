@@ -91,6 +91,10 @@ export default class extends React.Component<Props, State> {
               } else {
                 this.video.currentTime = this.state.targetTime;
                 this.video.pause();
+                if (!this.hasReachedTarget) {
+                  this.hasReachedTarget = true;
+                  this.props.onTargetTimeReached && this.props.onTargetTimeReached();
+                }
               }
             }
           }, 300);
