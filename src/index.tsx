@@ -60,8 +60,10 @@ export default class extends React.Component<Props, State> {
         // Attach the video and set up playback handlers
         this.base.insertBefore(this.video, this.base.firstElementChild);
         this.video.msRealTime = true;
+        this.video.defaultMuted = true;
         this.video.muted = true;
         this.video.style.setProperty('max-width', 'initial');
+
         this.interval = setInterval(() => {
           const timeDifference = Math.abs(this.state.targetTime - this.video.currentTime);
           if (timeDifference < 0.2) {
@@ -71,11 +73,11 @@ export default class extends React.Component<Props, State> {
             if (this.state.targetTime > this.video.currentTime) {
               this.video.play().catch(err => console.log(err)); // If not muted then you get a DOMException trying to play right away
             } else {
-              this.video.currentTime -= 0.2;
+              this.video.currentTime -= 0.1;
               this.video.pause();
             }
           }
-        }, 100);
+        }, 50);
       }
     }, 100);
   }
@@ -113,10 +115,6 @@ export default class extends React.Component<Props, State> {
   }
 
   public render() {
-    return (
-      <div ref={el => (this.base = el)} style={{ transform: `scale(${this.state.scale})` }}>
-        {this.props.children}
-      </div>
-    );
+    return <div ref={el => (this.base = el)}>{this.props.children}</div>;
   }
 }
