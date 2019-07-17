@@ -16,7 +16,7 @@ export default class extends React.Component<Props, State> {
   hasVideoLoaded: boolean;
   video: HTMLVideoElement;
   scale: number;
-  interval: NodeJS.Timeout;
+  interval: number;
   hasReachedTarget: boolean;
 
   constructor(props: Props) {
@@ -25,7 +25,7 @@ export default class extends React.Component<Props, State> {
     this.calculateScale = this.calculateScale.bind(this);
 
     this.state = {
-      targetTime: props.targetTime || 0
+      targetTime: (props.targetTime || 0) / 1000
     };
 
     this.hasVideoLoaded = false;

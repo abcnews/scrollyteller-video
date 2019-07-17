@@ -13,8 +13,7 @@
   "main": "dist/index.js",
   "scripts": {
     "prepublishOnly": "npm run build",
-    "clean": "rimraf dist",
-    "build": "npm run clean && microbundle --format=cjs --sourcemap=false"
+    "build": "tsc"
   },
   "keywords": [
     "react",
@@ -29,10 +28,8 @@
   "devDependencies": {
     "@types/react": "^16.8.13",
     "@types/react-test-renderer": "^16.8.1",
-    "microbundle": "^0.11.0",
     "react": "^16.8.6",
     "react-test-renderer": "^16.8.5",
-    "rimraf": "^2.6.3",
-    "rollup": "^1.7.3"
+    "typescript": "^3.5.3"
   }
 }
