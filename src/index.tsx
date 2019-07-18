@@ -39,7 +39,7 @@ export default class extends React.Component<Props, State> {
   public componentWillReceiveProps(nextProps: Props) {
     if (typeof nextProps.targetTime !== 'undefined') {
       this.setState(() => ({
-        targetTime: nextProps.targetTime
+        targetTime: nextProps.targetTime / 1000
       }));
     }
   }
@@ -67,12 +67,12 @@ export default class extends React.Component<Props, State> {
 
         // Extra timeout so safari doesn't think we are autoplaying
         setTimeout(() => {
+          // NOTE: we don't use ontimeupdate here because we manually play/pause the video
           this.interval = setInterval(() => {
             const timeDifference = Math.abs(this.state.targetTime - this.video.currentTime);
-
             if (timeDifference === 0) return;
 
-            if (timeDifference < 0.3) {
+            if (timeDifference < 0.05) {
               if (!this.video.paused) this.video.pause();
               this.video.currentTime = this.state.targetTime;
               if (!this.hasReachedTarget) {
@@ -97,7 +97,7 @@ export default class extends React.Component<Props, State> {
                 }
               }
             }
-          }, 300);
+          }, 50);
         }, 100);
       }
     }, 100);
