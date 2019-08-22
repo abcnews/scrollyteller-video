@@ -1,6 +1,8 @@
 import * as React from 'react';
 
 interface Props {
+  className?: string;
+  style?: any;
   src: string;
   targetTime: number;
   onVideoLoaded(video: HTMLVideoElement): void;
@@ -135,6 +137,10 @@ export default class extends React.Component<Props, State> {
   }
 
   public render() {
-    return <div ref={el => (this.base = el)}>{this.props.children}</div>;
+    return (
+      <div ref={el => (this.base = el)} className={this.props.className || ''} style={this.props.style || {}}>
+        {this.props.children}
+      </div>
+    );
   }
 }
