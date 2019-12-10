@@ -18,4 +18,4 @@ import Video from '@abcnews/scrollyteller-video';
 
 ## Author
 
-- Nathan Hoad - (hoad.nathan@abc.net.au)[mailto:hoad.nathan@abc.net.au]
+- Nathan Hoad - [hoad.nathan@abc.net.au](mailto:hoad.nathan@abc.net.au)
